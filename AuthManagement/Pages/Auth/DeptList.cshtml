@@ -1,0 +1,37 @@
+﻿@page
+@model AuthManagement.Pages.Auth.DeptListModel 
+@{
+    ViewData["Title"] = "部门管理";
+}
+
+
+<table border="1" width="60%">
+    <tr style="background-color:antiquewhite;height:40px;">
+        <td>编号</td>
+        <td>名称</td>
+        <td>创建时间</td>
+        <td><a href="/Auth/DeptEdit?deptid=0" target="_blank">新增部门</a></td>
+    </tr>
+
+    @foreach (TDept item in Model.DeptList)
+    {
+        <tr style="height:30px;">
+            <td>@item.DeptId</td>
+            <td>@item.DeptName</td>
+            <td>@item.CreateTime</td>
+            <td>
+                <a href="/Auth/DeptEdit?deptid=@item.DeptId" target="_blank">修改</a> &nbsp;&nbsp;&nbsp;
+                <a href="/Auth/DeptList?deptid=@item.DeptId" target="_self" onclick="return confirm('确定要作废吗？')">作废</a>
+            </td>
+        </tr>
+    }
+
+    @if (Model.DeptList.Count == 0)
+    {
+        <tr style="height:30px;">
+            <td colspan="4" align="center">没有查询到部门数据！</td>
+        </tr>
+    }
+
+</table>
+

@@ -1,0 +1,32 @@
+﻿@page
+@model AuthManagement.Pages.Auth.SigninModel
+@{
+    ViewData["Title"] = "用户登录";
+}
+
+
+<form method="post">
+    <table style="margin-left:160px;background-color:#f7f7f7;border:solid 1px #c0c0c0">
+        <tr>
+            <td style="padding :10px 30px 0 30px;">
+                账号:<br />
+                <input type="text" name="acc" />
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:10px 30px 0 30px;">
+                密码:<br />
+                <input type="password" name="pwd" />
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 10px 30px 10px 30px;">
+                <input type="checkbox" name="rememberMe" value="1" /> 记住我 &nbsp;&nbsp;&nbsp;
+                <button type="submit">登录</button>
+            </td>
+        </tr>
+
+    </table>
+</form>

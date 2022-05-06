@@ -1,0 +1,90 @@
+﻿@page
+@model AuthManagement.Pages.Auth.UserEditModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>编辑用户信息</title>
+    <style>
+        .tr1 {
+            height: 40px;
+            border: solid 1px #c0c0c0;
+        }
+
+        .td1 {
+            font-size: 15px;
+        }
+
+        .input1 {
+            width: 240px;
+            height: 32px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <input class="input1" type="hidden" name="userid" value="@Model.Tuser.UserId" />
+        <!--在部门下拉框的 onchange 事件中给部门名称赋值，这样Post后可以将值映射到TUser对象的DeptName上-->
+        <input class="input1" type="hidden" id="deptname" name="deptname" value="@Model.Tuser.DeptName" />
+
+        <table style="width:400px;border-collapse: collapse;border: solid 1px #c0c0c0;">
+            <tr style="background-color:antiquewhite;height:40px;">
+                <td>&nbsp;@Model.EditType</td>
+            </tr>
+            <tr class="tr1">
+                <td class="td1">
+                    &nbsp;&nbsp;&nbsp; 用户姓名：
+                    <input class="input1" type="text" size="25" maxlength="10" name="username" value="@Model.Tuser.UserName" />
+                </td>
+            </tr>
+            <tr class="tr1">
+                <td class="td1">
+                    &nbsp;&nbsp;&nbsp; 联系电话：
+                    <input class="input1" type="text" size="25" maxlength="10" name="mobile" value="@Model.Tuser.Mobile" />
+                </td>
+            </tr>
+            <tr class="tr1">
+                <td class="td1">
+                    &nbsp;&nbsp;&nbsp; 所属部门：
+                    <select name="deptid" class="input1" onchange="javascript:document.getElementById('deptname').value = this.options[this.options.selectedIndex].text;">
+                        @foreach (TDept dept in Model.DeptList)
+                        {
+                            if (dept.DeptId == @Model.Tuser.DeptId)
+                            {
+                                <option value="@dept.DeptId" selected="selected">@dept.DeptName</option>
+                            }
+                            else
+                            {
+                                <option value="@dept.DeptId">@dept.DeptName</option>
+                            }
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr class="tr1">
+                <td class="td1">
+                    &nbsp;&nbsp;&nbsp; 登录帐号：
+                    <input class="input1" type="text" size="25" maxlength="10" name="signinacc" value="@Model.Tuser.SigninAcc" />
+                </td>
+            </tr>
+            <tr class="tr1">
+                <td class="td1">
+                    &nbsp;&nbsp;&nbsp; 登录密码：
+                    <input class="input1" type="text" size="25" maxlength="10" name="signinpwd" value="@Model.Tuser.SigninPwd" />
+                </td>
+            </tr>
+            <tr class="tr1">
+                <td align="center">
+                    <button type="submit">保存</button>&nbsp;&nbsp;&nbsp;
+                    <button onclick="javascript: window.close();">关闭</button>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</body>
+</html>

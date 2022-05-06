@@ -1,0 +1,69 @@
+﻿@page
+@model AuthManagement.Pages.Auth.UserListModel 
+@{
+    ViewData["Title"] = "用户管理";
+}
+
+<form id="form1" method="get">
+    部门:<select name="did">
+        <option value="0"></option>
+        @foreach (TDept item in Model.DeptList)
+        {
+            if (item.DeptId.ToString() == Request.Query["did"])
+            {
+                <option value="@item.DeptId" selected>@item.DeptName</option>
+            }
+            else
+            {
+                <option value="@item.DeptId">@item.DeptName</option>
+            }
+        }
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    姓名:<input type="text" name="name" style="width:120px;" value='@Request.Query["name"]' />&nbsp;
+    <input type="hidden" id="page" name="page" value="@Model.PageIndex" />
+    <buttonn type="submit">查询</buttonn>
+</form>
+<table border="1" width="60%" style="margin-top:4px;">
+    <tr style="background-color:antiquewhite;height:40px;">
+        <td>编号</td>
+        <td>姓名</td>
+        <td>手机</td>
+        <td>部门</td>
+        <td>账号</td>
+        <td>创建时间</td>
+        <td><a href="/Auth/UserEdit?userid=0" target="_blank">新增用户</a></td>
+    </tr>
+    @foreach (TUser item in Model.UserList) //遍历输出部门信息
+    {
+        <tr style="height:30px;">
+            <td>@item.UserId</td>
+            <td>@item.UserName</td>
+            <td>@item.Mobile</td>
+            <td>@item.DeptName</td>
+            <td>@item.SigninAcc</td>
+            <td>@item.CreateTime</td>
+            <td>
+                <a href="/Auth/UserEdit?userid=@item.UserId" target="_blank">修改</a>&nbsp;&nbsp;
+                <!--注：按约定 asp-page-handler 属性后的值对应的后台方法是 OnGet+Value,这里是OnGetCancel和OnGetDelete-->
+                <a target="_self" asp-page-handler="Cancel" asp-route-uid="@item.UserId" onclick="return confirm('锁定后用户不能登录，确定要锁定吗？');">锁定</a>&nbsp;&nbsp;
+                <a target="_self" asp-page-handler="Delete" asp-route-uid="@item.UserId" onclick="return confirm('确定要删除吗？');">删除</a>
+            </td>
+        </tr>
+    }
+    @if (Model.UserList.Count == 0)
+    {
+        <tr style="height:30px;">
+            <td colspan="7" align="center">没有查询到用户信息！</td>
+        </tr>
+    }
+</table>
+<span>第 @Model.PageIndex 页 / 共 @Model.PageCount 页 &nbsp;&nbsp; 每页 @Model.PageSize 笔 / 共 @Model.RecordCount 笔</span>
+@if (Model.RecordCount > Model.PageSize) //如果记录数大于分页大小就启用分页显示
+{
+    <a href="javascript:document.getElementById('page').value=1;document.getElementById('form1').submit();">首页</a>
+    <!--因为分页参数page放在form中，所以这里用javascript做加减操作后提交form就可以了-->
+    <a href="javascript:var obj=document.getElementById('page');obj.value=parseInt(obj.value)+1;if(obj.value>@Model.PageCount){obj.value=@Model.PageCount};document.getElementById('form1').submit();">下一页</a>
+    <a href="javascript:var obj=document.getElementById('page');obj.value=parseInt(obj.value)-1;if(obj.value<1){obj.value=1};document.getElementById('form1').submit();">上一页</a>
+    <a href="javascript:document.getElementById('page').value=@Model.PageCount;document.getElementById('form1').submit();">尾页</a>
+}

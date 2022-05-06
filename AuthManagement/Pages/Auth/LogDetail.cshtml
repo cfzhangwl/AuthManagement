@@ -1,0 +1,20 @@
+﻿@page
+@model AuthManagement.Pages.Auth.LogDetailModel 
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>操作日志明细</title>
+</head>
+<body>
+    @foreach (TLog log in Model.LogDetails)
+    {
+        <textarea cols="40" rows="10" style="overflow:scroll;resize:both;">
+        @log.TableData
+    </textarea><br /><br />
+    }
+</body>
+</html>

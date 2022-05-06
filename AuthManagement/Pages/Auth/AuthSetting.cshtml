@@ -1,0 +1,171 @@
+﻿@page
+@model AuthManagement.Pages.Auth.AuthSettingModel 
+@{
+    ViewData["Title"] = "权限设置";
+}
+<style>
+    .a1 {
+        color: #ffffff;
+    }
+
+    .a2 {
+        color: #000000;
+    }
+
+    .left {
+        float: left;
+        width: 200px;
+        min-height: 400px;
+        border: solid 1px #c0c0c0;
+        padding-top: 2px;
+        padding-bottom: 4px;
+    }
+
+    .right {
+        float: left;
+        width: 320px;
+        min-height: 400px;
+        border: solid 1px #c0c0c0;
+        padding-top: 2px;
+        padding-bottom: 4px;
+    }
+
+    .dept {
+        width: 180px;
+        height: 32px;
+        background-color: #808080;
+        margin-top: 2px;
+        text-align: center;
+        margin-left: 10px;
+    }
+
+    .user {
+        width: 180px;
+        height: 32px;
+        background-color: #F9EBE3;
+        margin-top: 2px;
+        text-align: center;
+        margin-left: 10px;
+    }
+
+    .title {
+        width: 300px;
+        height: 32px;
+        margin-left: 10px;
+        margin-top: 20px;
+        background-color: #e0e0e0;
+    }
+
+    .func {
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .target {
+        width: 300px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .send {
+        width: 300px;
+        margin-top: 60px;
+        text-align: center;
+    }
+</style>
+<div>
+    <!--左边区块显示部门及部门下的用户-->
+    <div class="left">
+        @foreach (TDept dept in Model.DeptList)
+        {
+            <div class="dept"><a class="a1" href="/Auth/AuthSetting?deptid=@dept.DeptId">@dept.DeptName</a></div>
+            <!--遍历的部门==用户点击的部门就显示其下的用户-->
+            if (Request.Query["deptid"] == dept.DeptId.ToString())
+            {
+                foreach (TUser user in Model.UserList)
+                {
+                    <div class="user"><a class="a2" href="/Auth/AuthSetting?deptid=@user.DeptId&userid=@user.UserId">@user.UserName</a></div>
+                }
+            }
+        }
+    </div>
+    <!--右边区块显示权限点-->
+    <div class="right">
+        <form method="post">
+            <div class="target">@Model.TargetInfo.TargetName</div>
+
+            <div class="title"> 用户管理</div>
+            <div class="func">
+                @if (Model.AuthArray.Contains<string>("TUser-Add"))
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Add" checked="checked" /><span> 新增   </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Add" /><span> 新增    </span>
+                }
+                @if (Model.AuthArray.Contains<string>("TUser-Modify"))
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Modify" checked="checked" /><span> 修改   </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Modify" /><span> 修改   </span>
+                }
+                @if (Model.AuthArray.Contains<string>("TUser-Lock"))
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Lock" checked="checked" /><span> 锁定   </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Lock" /><span> 锁定   </span>
+                }
+                @if (Model.AuthArray.Contains<string>("TUser-Delete"))
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Delete" checked="checked" /><span> 删除   </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TUser-Delete" /><span> 删除   </span>
+                }
+            </div>
+            <div class="title"> 部门管理</div>
+            <div class="func">
+
+                @if (Model.AuthArray.Contains<string>("TDept-Add"))
+                {
+                    <input type="checkbox" name="funccode" value="TDept-Add" checked="checked" /><span> 新增      </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TDept-Add" /><span> 新增      </span>
+                }
+                @if (Model.AuthArray.Contains<string>("TDept-Modify"))
+                {
+                    <input type="checkbox" name="funccode" value="TDept-Modify" checked="checked" /><span> 修改      </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TDept-Modify" /><span> 修改      </span>
+                }
+                @if (Model.AuthArray.Contains<string>("TDept-Cancel"))
+                {
+                    <input type="checkbox" name="funccode" value="TDept-Cancel" checked="checked" /><span> 作废      </span>
+                }
+                else
+                {
+                    <input type="checkbox" name="funccode" value="TDept-Cancel" /><span> 作废      </span>
+                }
+            </div>
+
+            @if (Model.TargetInfo.TargetId > 0)
+            {
+                <div class="send"><button type="submit">保存</button></div>
+            }
+        </form>
+    </div>
+    <div style="clear:both;"></div>
+</div>

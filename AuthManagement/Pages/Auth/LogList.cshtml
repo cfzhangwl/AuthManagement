@@ -1,0 +1,23 @@
+﻿@page
+@model AuthManagement.Pages.Auth.LogListModel 
+@{
+    ViewData["Title"] = "操作日志";
+}
+
+<table style="border-collapse:collapse;border:solid 1px #c0c0c0;font-size:14px;" border="1" width="60%">
+    <tr style="background-color:#e0e0e0;font-size:16px;">
+        <td>表名</td>
+        <td>操作人</td>
+        <td>操作时间</td>
+        <td>操作</td>
+    </tr>
+    @foreach (TLog log in Model.LogList)
+    {
+        <tr>
+            <td>@log.TableName</td>
+            <td>@log.UserName</td>
+            <td>@log.LogTime.ToString("yyyy-MM-dd")</td>
+            <td><a href="/Auth/LogDetail?batno=@log.BatchNo" target="_blank">详情</a></td><!--传 batno 可以一次抓到关联的2笔数据-->
+        </tr>
+    }
+</table>
