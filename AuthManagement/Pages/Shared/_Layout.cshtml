@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using AuthManagement;
+@inject IHtmlLocalizer<Menu> Localizer //在页面顶部注入 IHtmlLocalizer<Menu> ，这里可以看到 Menu 的作用了。
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,33 +23,39 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">【@Localizer["Home"]】</a>
                         </li>
                         <li class="nav-item">
                             <!--页面中的链接地址不需要加.cshtml的后缀-->
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/DeptList">【部门管理】</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/DeptList">【@Localizer["DeptMng"]】</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/UserList">【用户管理】</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/UserList">【@Localizer["UserMng"]】</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/AuthSetting">【权限设置】</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/AuthSetting">【@Localizer["AuthMng"]】</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/LogList">【操作日志】</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/LogList">【@Localizer["OpLog"]】</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">【@Localizer["Privacy"]】</a>
                         </li>
                         <li class="nav-item">
                             @if (Context.User.Identity.IsAuthenticated) //已登录显示[登出]按钮
                             {
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Auth/Signout">[登出]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Auth/Signout">[@Localizer["Exit"]]</a>
                             }
                             else
                             {
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Auth/Signin">[登录]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Auth/Signin">[@Localizer["Enter"]]</a>
                             }
+                        </li>
+                        <li>
+                            &nbsp;&nbsp;&nbsp;
+                            <a style="color:#000;" href="/Index?culture=zh-CN">中文简体</a> |
+                            <a style="color:#000;" href="/Index?culture=zh-TW">繁體</a> |
+                            <a style="color:#000;" href="/Index?culture=en">English</a> |
                         </li>
                     </ul>
                 </div>

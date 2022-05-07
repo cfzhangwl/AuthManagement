@@ -28,11 +28,15 @@ namespace AuthManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 指定资源文件的路径
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddRazorPages().AddViewLocalization();
+
             services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizeFolder("/Auth").AllowAnonymousToPage("/Auth/Signin");
             });
-              
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>
                 {
@@ -57,6 +61,13 @@ namespace AuthManagement
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //启用本地化中间件
+            string[] cultures = new[] { "zh-CN", "zh-TW", "en" };
+            app.UseRequestLocalization(
+                 new RequestLocalizationOptions().SetDefaultCulture(cultures[0]) //设置多语言的默认值是 zh-CN
+                        .AddSupportedCultures(cultures).AddSupportedUICultures(cultures)
+            );
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
