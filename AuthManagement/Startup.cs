@@ -32,7 +32,7 @@ namespace AuthManagement
             {
                 options.Conventions.AuthorizeFolder("/Auth").AllowAnonymousToPage("/Auth/Signin");
             });
-
+              
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>
                 {
