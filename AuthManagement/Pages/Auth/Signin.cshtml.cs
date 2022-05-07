@@ -20,6 +20,7 @@ namespace AuthManagement.Pages.Auth
         }
         public void OnGet()
         {
+            throw new Exception("test()()()77777......");
         }
 
         public async Task OnPost()
